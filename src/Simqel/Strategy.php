@@ -10,15 +10,15 @@ namespace Simqel;
  *
  */
 abstract class Strategy {
-
+	
 	/**
 	 * @var Connection
 	 */
 	protected $connection;
-
+	
 	protected $escapeIdentifierCharacter = '"';
-
-
+	
+	
 	/**
 	 * Constructor.
 	 * @param Connection $connection
@@ -26,7 +26,7 @@ abstract class Strategy {
 	public function __construct(Connection $connection) {
 		$this->connection = $connection;
 	}
-
+	
 	/**
 	 * Adds limit part to the query.
 	 * @param string $query
@@ -35,8 +35,8 @@ abstract class Strategy {
 	 * @return string
 	 */
 	abstract public function limit($query, $limit, $offset);
-
-
+	
+	
 	/**
 	 * Gets one (first) row from query result.
 	 * @param $query
@@ -45,8 +45,8 @@ abstract class Strategy {
 	public function one($query) {
 		return $query;
 	}
-
-
+	
+	
 	/**
 	 * Gets row by id.
 	 * @param string $table
@@ -58,8 +58,8 @@ abstract class Strategy {
 		$idColumn = $this->escapeIdentifier($idColumn);
 		return "SELECT * FROM $table WHERE $idColumn = ? ";
 	}
-
-
+	
+	
 	/**
 	 * Retuns an insert query.
 	 * @param string $table
@@ -76,8 +76,8 @@ abstract class Strategy {
 		$qm = $this->qm(count($params));
 		return "INSERT INTO $table ($columns) VALUES ($qm) ";
 	}
-
-
+	
+	
 	/**
 	 * Returns an update query.
 	 * @param string $table
@@ -88,7 +88,7 @@ abstract class Strategy {
 	public function update($table, array $params, $idColumn) {
 		$table = $this->escapeIdentifier($table);
 		$idColumn = $this->escapeIdentifier($idColumn);
-
+		
 		$setParts = array();
 		foreach ($params as $k => $v) {
 			$setParts[] = $this->escapeIdentifier($k) . ' = ?';
@@ -96,8 +96,8 @@ abstract class Strategy {
 		$set = implode(', ', $setParts);
 		return "UPDATE $table SET $set WHERE $idColumn = ? ";
 	}
-
-
+	
+	
 	/**
 	 * Zwraca zapytanie Delete
 	 * @param string $table
@@ -107,11 +107,11 @@ abstract class Strategy {
 	public function delete($table, $idColumn) {
 		$table = $this->escapeIdentifier($table);
 		$idColumn = $this->escapeIdentifier($idColumn);
-
+		
 		return "DELETE FROM $table WHERE $idColumn = ? ";
 	}
-
-
+	
+	
 	/**
 	 * Retuns $num question marks. Usefull for .. IN (?, ?, ..., ?).
 	 * @param unknown_type $num
@@ -120,16 +120,16 @@ abstract class Strategy {
 	public function qm($num) {
 		return implode(', ', array_fill(0, $num, '?'));
 	}
-
-
+	
+	
 	/**
 	 * Returns describe query.
 	 */
 	public function describe() {
 		return "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE table_schema = ? AND table_name = ?";
 	}
-
-
+	
+	
 	/**
 	 * Returns escape identifier character.
 	 * @return string
@@ -138,7 +138,7 @@ abstract class Strategy {
 		return $this->escapeIdentifierCharacter;
 	}
 
-
+	
 	/**
 	 * Set escape identifier character.
 	 * @param string $e
@@ -146,10 +146,10 @@ abstract class Strategy {
 	public function setEscapeIdentifierCharacter($e) {
 		$this->escapeIdentifierCharacter = $e;
 	}
-
-
+	
+	
 	/**
-	 *
+	 * 
 	 * Escape an identifier, i.e. table or column name.
 	 * @param string $name
 	 * @return string escaped identifier
