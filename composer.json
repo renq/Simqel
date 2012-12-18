@@ -1,5 +1,5 @@
 {
-    "name": "Simqel/Simqel",
+    "name": "simqel/simqel",
     "type": "library",
     "description": "Database abstraction layer",
     "keywords": ["dbal"],
