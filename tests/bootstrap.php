@@ -15,10 +15,14 @@ $config = array(
 	'mysql_dsn' => 'mysql://root:gsub@127.0.0.1/information_schema',
 
 	'pgsql_dsn' => 'pgsql://renq:test@localhost/mlsql',
-	
-        
+
+
 );
 */
+
+if (!file_exists(__DIR__ . '/../temp/')) {
+	mkdir(__DIR__ . '/../temp/');
+}
 
 define('TEST_PGSQL', false);
 define('SQLITE_DB', __DIR__ . '/../temp/sqlite_test.db');
