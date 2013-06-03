@@ -2,6 +2,7 @@
 
 namespace Simqel;
 
+
 class Connection_Decorator_Debug extends Connection_Decorator
 {
 
@@ -11,31 +12,31 @@ class Connection_Decorator_Debug extends Connection_Decorator
     public function __construct(Connection $connection)
     {
         parent::__construct($connection);
-        $this->getDecorated() = $connection;
+        $this->decorated = $connection;
     }
 
     public function query($query, array $params = array())
     {
         $this->queries[] = $this->buildQuery($query, $params);
-        return $this->getDecorated()->query($query, $params);
+        return $this->decorated->query($query, $params);
     }
 
     public function beginTransaction()
     {
         $this->queries[] = 'BEGIN TRANSACTION';
-        return $this->getDecorated()->beginTransaction();
+        return $this->decorated->beginTransaction();
     }
 
     public function commit()
     {
         $this->queries[] = 'COMMIT';
-        return $this->getDecorated()->commit();
+        return $this->decorated->commit();
     }
 
     public function rollback()
     {
         $this->queries[] = 'ROLLBACK';
-        return $this->getDecorated()->rollback();
+        return $this->decorated->rollback();
     }
 
     public function getDebug()
@@ -43,11 +44,24 @@ class Connection_Decorator_Debug extends Connection_Decorator
         return $this->queries;
     }
 
+    public function escape($variable)
+    {
+        if (is_array($variable)) {
+            return '(' . implode(', ', array_map(array($this, 'escape'), $variable)) . ')';
+        }
+        elseif (is_int($variable)) {
+            return (string)$variable;
+        }
+        else {
+            return "'{$variable}'";
+        }
+    }
+
     private function buildQuery($query, $params)
     {
         $count = 0;
-        $query = str_replace(array('%', '?'), array('%%', "'%s'"), $query, $count);
-        foreach ($params as $param) {
+        $query = str_replace(array('%', '?'), array('%%', "%s"), $query, $count);
+        foreach ($params as &$param) {
             $param = $this->escape($param);
         }
         return vsprintf($query, $params);
