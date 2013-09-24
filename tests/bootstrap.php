@@ -26,6 +26,7 @@ if (!file_exists(__DIR__ . '/../temp/')) {
 
 define('TEST_PGSQL', false);
 define('SQLITE_DB', __DIR__ . '/../temp/sqlite_test.db');
+define('SQLITE_DB_DIR', __DIR__ . '/../temp/');
 define('MYSQL_DB', 'mysql://root:gsub@localhost/mlsql');
 define('MYSQL_DSN', 'mysql://root:gsub@127.0.0.1/information_schema');
 define('PGSQL_DSN', 'pgsql://renq:test@localhost/mlsql');

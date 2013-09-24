@@ -8,7 +8,7 @@ use Simqel\Simqel;
 class SimqelTest extends \PHPUnit_Framework_TestCase {
 
 
-    
+
     public function testCreateByDSNMySQL() {
     	$dsn = 'mysql://root:pass@localhost/db';
     	$sql = Simqel::createByDSN($dsn);
@@ -16,8 +16,8 @@ class SimqelTest extends \PHPUnit_Framework_TestCase {
     	$this->assertTrue($sql->getConnection() instanceof \Simqel\Connection_PDO_MySQL, 'Connection should be an instance of Connection_PDO_MySQL');
     	$this->assertTrue($sql->getStrategy() instanceof \Simqel\Strategy_MySQL, 'Strategy should be an instance of Strategy_MySQL');
     }
-    
-    
+
+
 	public function testCreateByDSNPostgresql() {
 	    if (!TEST_PGSQL) return;
     	$dsn = 'pgsql://root:pass@localhost/db';
@@ -26,8 +26,8 @@ class SimqelTest extends \PHPUnit_Framework_TestCase {
     	$this->assertTrue($sql->getConnection() instanceof \Simqel\Connection_PDO_PostgreSQL, 'Connection should be an instance of Connection_PDO_PostgreSQL');
     	$this->assertTrue($sql->getStrategy() instanceof \Simqel\Strategy_PostgreSQL, 'Strategy should be an instance of Strategy_PostgreSQL');
     }
-    
-    
+
+
 	public function testCreateByDSNSqlite() {
     	$dsn = 'sqlite:///some/file/';
     	$sql = Simqel::createByDSN($dsn);
@@ -35,79 +35,79 @@ class SimqelTest extends \PHPUnit_Framework_TestCase {
     	$this->assertTrue($sql->getConnection() instanceof \Simqel\Connection_PDO_Sqlite, 'Connection should be an instance of Connection_PDO_PostgreSQL');
     	$this->assertTrue($sql->getStrategy() instanceof \Simqel\Strategy_Sqlite, 'Strategy should be an instance of Strategy_Sqlite');
     }
-    
-    
+
+
 	public function testCreateByDSNUnknownDatabase() {
 		$this->setExpectedException('\Simqel\Exception');
     	$dsn = 'someUnknownDatabase://someUser@someServer/someDtabase/';
     	$sql = Simqel::createByDSN($dsn);
     }
-    
-    
+
+
     private function methodCall($method) {
     	$settings = $this->getMock('\Simqel\Settings');
     	$connection = $this->getMock('\Simqel\Connection_PDO_MySQL', array($method), array($settings));
     	$strategy = $this->getMock('\Simqel\Strategy_MySQL', array(), array($connection));
     	$sql = new Simqel($connection, $strategy);
-    	
+
     	$connection->expects($this->once())->method($method);
     	$sql->$method();
     }
-    
-    
+
+
     public function testBeginTransaction() {
 		$this->methodCall('beginTransaction');
     }
-    
-    
+
+
 	public function testCommit() {
 		$this->methodCall('commit');
     }
-    
-    
+
+
 	public function testRollback() {
 		$this->methodCall('rollback');
     }
-    
+
     /*
 	public function testGetDebug() {
 		$this->methodCall('getDebug');
     }*/
-    
-    
+
+
     private function getSQLWithMocks() {
     	$settings = $this->getMock('\Simqel\Settings');
     	$connection = $this->getMock('\Simqel\Connection_PDO_MySQL', array(), array($settings));
     	$strategy = $this->getMock('\Simqel\Strategy_MySQL', array(), array($connection));
     	return new Simqel($connection, $strategy);
     }
-    
-    
+
+
 	public function testSaveInvalidTableName() {
 		$this->setExpectedException('\InvalidArgumentException');
 		$sql = $this->getSQLWithMocks();
     	$sql->save(array(), array());
     }
-    
-    
+
+
 	public function testSaveInvalidParams() {
 		$this->setExpectedException('\InvalidArgumentException');
 		$sql = $this->getSQLWithMocks();
     	$sql->save('table', array('ala', 'ma', 'kota'));
     }
-    
-    
+
+
 	public function testSaveEmpryParams() {
 		$this->setExpectedException('\InvalidArgumentException');
 		$sql = $this->getSQLWithMocks();
 		$sql->save('table', array());
     }
-    
-    
+
+
 	public function testSaveInsert() {
 		$table = 'cat';
 		$params = array('name' => 'Nennek', 'colour' => 'black');
-		
+
     	$settings = $this->getMock('\Simqel\Settings');
     	$connection = $this->getMock('\Simqel\Connection_PDO_MySQL', array(), array($settings));
 		$connection->expects($this->once())->method('query');
@@ -116,8 +116,8 @@ class SimqelTest extends \PHPUnit_Framework_TestCase {
     	$sql = new Simqel($connection, $strategy);
     	$sql->save($table, $params);
     }
-    
-    
+
+
 	public function testSaveUpdate() {
 		$table = 'cat';
 		$params = array('name' => 'Nennek', 'colour' => 'black');
@@ -129,8 +129,8 @@ class SimqelTest extends \PHPUnit_Framework_TestCase {
     	$sql = new Simqel($connection, $strategy);
     	$sql->save($table, $params, 5);
     }
-    
-    
+
+
 	public function testSaveUpdateWithWrongID() {
 		$this->setExpectedException('\Simqel\Exception');
 		$table = 'cat';
@@ -138,12 +138,13 @@ class SimqelTest extends \PHPUnit_Framework_TestCase {
     	$settings = $this->getMock('\Simqel\Settings');
     	$connection = $this->getMock('\Simqel\Connection_PDO_MySQL', array(), array($settings));
 		$connection->expects($this->once())->method('query');
+        $connection->expects($this->once())->method('getAffectedRows')->will($this->returnValue(0));
     	$strategy = $this->getMock('\Simqel\Strategy_MySQL', array(), array($connection));
     	$sql = new Simqel($connection, $strategy);
     	$sql->save($table, $params, 100);
     }
-    
-    
+
+
 	public function testDelete() {
     	$settings = $this->getMock('\Simqel\Settings');
     	$connection = $this->getMock('\Simqel\Connection_PDO_Sqlite', array(), array($settings));
@@ -153,8 +154,8 @@ class SimqelTest extends \PHPUnit_Framework_TestCase {
     	$sql = new Simqel($connection, $strategy);
     	$sql->delete('table', 1);
     }
-    
-    
+
+
     public function testQuery() {
     	$settings = $this->getMock('\Simqel\Settings');
     	$connection = $this->getMock('\Simqel\Connection_PDO_Sqlite', array(), array($settings));
@@ -163,8 +164,8 @@ class SimqelTest extends \PHPUnit_Framework_TestCase {
     	$sql = new Simqel($connection, $strategy);
     	$sql->query('SELECT * FROM table WHERE id = ?', array(1));
     }
-    
-    
+
+
     public function testOne() {
     	$settings = $this->getMock('\Simqel\Settings');
     	$connection = $this->getMock('\Simqel\Connection_PDO_Sqlite', array(), array($settings));
@@ -173,8 +174,8 @@ class SimqelTest extends \PHPUnit_Framework_TestCase {
     	$sql = new Simqel($connection, $strategy);
     	$sql->one('SELECT * FROM table WHERE id = ?', array(1));
     }
-    
-    
+
+
 	public function testById() {
     	$settings = $this->getMock('\Simqel\Settings');
     	$connection = $this->getMock('\Simqel\Connection_PDO_Sqlite', array(), array($settings));
@@ -183,8 +184,8 @@ class SimqelTest extends \PHPUnit_Framework_TestCase {
     	$sql = new Simqel($connection, $strategy);
     	$sql->byId('table', 1);
     }
-    
-    
+
+
 	public function testValue() {
     	$settings = $this->getMock('\Simqel\Settings');
     	$connection = $this->getMock('\Simqel\Connection_PDO_Sqlite', array(), array($settings));
@@ -193,8 +194,8 @@ class SimqelTest extends \PHPUnit_Framework_TestCase {
     	$sql->expects($this->any())->method('one')->will($this->returnValue(array('name' => 'Nennek', 'colour' => 'black')));
     	$this->assertEquals('Nennek', $sql->value('SELECT name FROM cat WHERE id = 1'));
     }
-    
-  
+
+
 	public function testValueEmpty() {
     	$settings = $this->getMock('\Simqel\Settings');
     	$connection = $this->getMock('\Simqel\Connection_PDO_Sqlite', array(), array($settings));
@@ -205,8 +206,8 @@ class SimqelTest extends \PHPUnit_Framework_TestCase {
     	$sql->expects($this->any())->method('one')->will($this->returnValue(false));
     	$this->assertFalse($sql->value('SELECT name FROM cat WHERE id = 1'));
     }
-    
-    
+
+
 	public function testFlat() {
 		$return = array(
 			array('name' => 'Nennek', 'colour' => 'black'),
@@ -223,8 +224,8 @@ class SimqelTest extends \PHPUnit_Framework_TestCase {
     	$sql = new Simqel($connection, $strategy);
     	$this->assertEquals(array('Nennek', 'Misia'), $sql->flat('SELECT name FROM cat'));
     }
-    
-    
+
+
     public function testGet() {
     	$settings = $this->getMock('\Simqel\Settings');
     	$connection = $this->getMock('\Simqel\Connection_PDO_Sqlite', array(), array($settings));
@@ -232,14 +233,14 @@ class SimqelTest extends \PHPUnit_Framework_TestCase {
     	$sql = new Simqel($connection, $strategy);
     	$strategy->expects($this->never())->method('limit');
     	$sql->get("SELECT * FROM cat WHERE id = ?", array(1));
-    	
+
     	$strategy = $this->getMock('\Simqel\Strategy_Sqlite', array(), array($connection));
     	$sql = new Simqel($connection, $strategy);
     	$strategy->expects($this->once())->method('limit');
     	$sql->get("SELECT * FROM cat WHERE id = ?", array(1), 10, 20);
     }
-    
-    
+
+
     public function testDescribe() {
 		$columns = array(
 			array('table_catalog'=>null,'table_schema'=>'sql','table_name'=>'table','column_name'=>'id','ordinal_position'=>1,'column_default'=>null,'is_nullable'=>'no','data_type'=>'int','character_maximum_length'=>null,'character_octet_length'=>null,'numeric_precision'=>10,'numeric_scale'=>0,'character_set_name'=>null,'collation_name'=>null,'column_type'=>'int(10) unsigned','column_key'=>'pri','extra'=>'auto_increment','privileges'=>'select,insert,update,references','column_comment'=>''),
@@ -255,8 +256,8 @@ class SimqelTest extends \PHPUnit_Framework_TestCase {
     	$sql->expects($this->once())->method('get')->will($this->returnValue($columns));
     	$sql->describe('table');
     }
-    
-    
+
+
     public function testDescribeFail() {
 		$columns = array(
 			array('table_catalog'=>null,'table_schema'=>'sql','table_name'=>'table','column_name'=>'id','ordinal_position'=>1,'column_default'=>null,'is_nullable'=>'no','data_type'=>'int','character_maximum_length'=>null,'character_octet_length'=>null,'numeric_precision'=>10,'numeric_scale'=>0,'character_set_name'=>null,'collation_name'=>null,'column_type'=>'int(10) unsigned','column_key'=>'pri','extra'=>'auto_increment','privileges'=>'select,insert,update,references','column_comment'=>''),
@@ -273,8 +274,8 @@ class SimqelTest extends \PHPUnit_Framework_TestCase {
     	$sql->expects($this->once())->method('get')->will($this->returnValue(false));
     	$sql->describe('table');
     }
-    
-    
+
+
     public function testSaveFromRequest() {
 		$columns = array(
 			'id' => true,
@@ -293,7 +294,7 @@ class SimqelTest extends \PHPUnit_Framework_TestCase {
     	$sql->expects($this->once())->method('save')->will($this->returnValue(3));
     	$this->assertEquals(3, $sql->saveFromRequest('table'));
     }
-    
+
 
 
 }

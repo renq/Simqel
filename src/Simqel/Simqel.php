@@ -11,18 +11,18 @@ namespace Simqel;
 class Simqel {
 
 
-	
+
 	/**
 	 * @var Connection
 	 */
 	protected $connection;
-	
+
 	/**
 	 * @var SqlStrategy
 	 */
 	protected $strategy;
 
-	
+
 	/**
 	 * The constructor.
 	 * @param Connection $connection
@@ -32,11 +32,11 @@ class Simqel {
 		$this->connection = $connection;
 		$this->strategy = $strategy;
 	}
-	
-	
+
+
 	/**
 	 * Create SQL object by DSN.
- 	 * @param $dsn string 
+ 	 * @param $dsn string
  	 * @return SQL
 	 */
 	public static function createByDSN($dsn) {
@@ -58,9 +58,9 @@ class Simqel {
 				throw new Exception("Don't know what to do with DSN '$dsn'. Undefined driver '" . $settings->getDriver() . "'.");
 		}
 	}
-	
-	//--- returns data function 
-	
+
+	//--- returns data function
+
 	/**
 	 * Returns rows from database.
 	 * @param string $query
@@ -82,7 +82,7 @@ class Simqel {
 		}
 		return $return;
 	}
-	
+
 	/**
 	 * Return one row.
 	 * @param string $query
@@ -93,7 +93,7 @@ class Simqel {
 		$tmp = $this->get($this->strategy->one($query), $params);
 		return empty($tmp)?false:$tmp[0];
 	}
-	
+
 	/**
 	 * Return array of values from one (first) column.
 	 * @param string $query
@@ -109,7 +109,7 @@ class Simqel {
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Returns row by id.
 	 * @param string $table
@@ -121,7 +121,7 @@ class Simqel {
 		$query = $this->strategy->byId($table, $idColumn);
 		return $this->one($query, array($id));
 	}
-	
+
 	/**
 	 * Returns value in first column and first row.
 	 * @param string $query
@@ -132,38 +132,38 @@ class Simqel {
 		$tmp = $this->one($query, $params);
 		if (!empty($tmp) && is_array($tmp)) {
 			return array_shift($tmp);
-		} 
+		}
 		else {
 			return false;
 		}
 	}
-	
-		
+
+
 	//--- transakcje
-	
+
 	/**
 	 * Begin transaction.
 	 */
 	public function beginTransaction() {
 		$this->connection->beginTransaction();
 	}
-	
+
 	/**
 	 * Commit transaction.
 	 */
 	public function commit() {
 		$this->connection->commit();
 	}
-	
+
 	/**
 	 * Rollback transaction.
 	 */
 	public function rollback() {
 		$this->connection->rollback();
 	}
-	
+
 	//--- modify
-	
+
 	/**
 	 * Save row to table "$table". $params is a map of values. Key is a table field name. Value is a value.
 	 * When id = 0 row is inserted. When id <> 0 then row is updated.
@@ -173,6 +173,7 @@ class Simqel {
 	 * @param int $id
 	 * @param string $idColumn
 	 * @return int
+     * @throws \InvalidArgumentException
 	 */
 	public function save($table, array $params, $id = 0, $idColumn = 'id') {
 		if (!is_string($table) || !strlen($table)) {
@@ -182,11 +183,13 @@ class Simqel {
 		if (!is_array($params) || 0 === count(array_diff_key($params, array_keys(array_keys($params))))) {
 			throw new \InvalidArgumentException('Second parameter must be an associative array!');
 		}
-		$query = '';
 		if ($id) {
 			$query = $this->strategy->update($table, $params, $idColumn);
 			$params[] = $id;
 			$this->connection->query($query, $params);
+            if ($this->connection->getAffectedRows() === 0) {
+                throw new Exception("SQL update doesn't did anything. Maybe row $idColumn=$id doesn't exists?");
+            }
 			return $id;
 		}
 		else {
@@ -195,8 +198,8 @@ class Simqel {
 			return $this->connection->lastInsertId($table, $idColumn);
 		}
 	}
-	
-	
+
+
 	public function saveFromArray($table, $array, $idColumn = 'id') {
 		$params = array_intersect_key($array, $this->describe($table));
 		$id = 0;
@@ -206,8 +209,8 @@ class Simqel {
 		}
 		return $this->save($table, $params, $id, $idColumn);
 	}
-	
-	
+
+
 	/**
 	 * @deprecated
 	 * @param string $table
@@ -217,9 +220,9 @@ class Simqel {
 	public function saveFromRequest($table, $extraParams = array(), $idColumn = 'id') {
 		return $this->saveFromArray($table, array_merge($_REQUEST, $extraParams), $idColumn);
 	}
-	
+
 	/**
-	 * Delete row(s) from table by id. 
+	 * Delete row(s) from table by id.
 	 * @param string $table
 	 * @param int $id
 	 * @param string $idColumn
@@ -228,12 +231,12 @@ class Simqel {
 		$query = $this->strategy->delete($table, $idColumn);
 		$this->connection->query($query, array($id));
 	}
-	
-	
+
+
 	//--- other
-	
+
 	/**
-	 * Execute query. 
+	 * Execute query.
 	 * @param string $query
 	 * @param array $params
 	 * @return mixed
@@ -241,8 +244,8 @@ class Simqel {
 	public function query($query, array $params = array()) {
 		return $this->connection->query($query, $params);
 	}
-	
-	
+
+
 	/**
 	 * Returns describe table information.
 	 * @TODO
@@ -265,7 +268,7 @@ class Simqel {
 		}
 		throw new Exception("Describe fail. Probably table '$table' doesn't exists.");
 	}
-	
+
 
 	/**
 	 * @deprecated
@@ -274,8 +277,8 @@ class Simqel {
 	public function qm($num) {
 		return $this->getStrategy()->qm($num);
 	}
-	
-	
+
+
 	/**
 	 * Returns connection object.
 	 * @return Connection
@@ -283,8 +286,8 @@ class Simqel {
 	public function getConnection() {
 		return $this->connection;
 	}
-	
-	
+
+
 	/**
 	* Sets connection object.
 	* @param Connection $connection
@@ -292,8 +295,8 @@ class Simqel {
 	public function setConnection(Connection $connection) {
 	    $this->connection = $connection;
 	}
-	
-	
+
+
 	/**
 	 * Returns strategy object.
 	 * @return Strategy
@@ -301,8 +304,8 @@ class Simqel {
 	public function getStrategy() {
 		return $this->strategy;
 	}
-	
-	
+
+
 	/**
 	* Sets strategy object.
 	* @param Strategy $strategy
@@ -310,6 +313,6 @@ class Simqel {
 	public function setStrategy(Strategy $strategy) {
 	    $this->strategy = $strategy;
 	}
-	
-	
+
+
 }
