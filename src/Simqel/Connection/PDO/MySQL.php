@@ -1,9 +1,16 @@
 <?php
 
-namespace Simqel;
+namespace Simqel\Connection\PDO;
 
+use Simqel\Connection\PdoConnection;
+use Simqel\Exception;
+use Simqel\Settings;
 
-class Connection_PDO_MySQL extends Connection_PDO
+/**
+ * Class Connection_PDO_MySQL
+ * @package Simqel\Connection\PDO
+ */
+class MySQL extends PdoConnection
 {
 
     public function __construct(Settings $settings)
@@ -17,7 +24,7 @@ class Connection_PDO_MySQL extends Connection_PDO
         try {
             $driver = $this->settings->getDriver();
             $host = $this->settings->getHost();
-            $port = ($port = $this->settings->getPort())?$port:3306;
+            $port = ($port = $this->settings->getPort()) ? $port : 3306;
             $username = $this->settings->getUsername();
             $password = $this->settings->getPassword();
             $database = $this->settings->getDatabase();
@@ -32,9 +39,8 @@ class Connection_PDO_MySQL extends Connection_PDO
             $this->handle->query("SET SESSION query_cache_type = ON");
             $this->settings->clearPassword();
             return true;
-        }
-        catch (\PDOException $e) {
-            throw new Exception('Can\'t open database: '.$e->getMessage());
+        } catch (\PDOException $e) {
+            throw new Exception('Can\'t open database: ' . $e->getMessage());
         }
     }
 }

@@ -2,33 +2,47 @@
 
 namespace Simqel\Tests;
 
-use Simqel\Connection_PDO_MySQL;
+use PHPUnit\Framework\TestCase;
+use Simqel\Connection\PDO\MySQL;
 use Simqel\Settings;
 
-
-class SqlConnectionPDOMySQLTest extends \PHPUnit_Framework_TestCase
+/**
+ * Class SqlConnectionPDOMySQLTest
+ * @package Simqel\Tests
+ */
+class SqlConnectionPDOMySQLTest extends TestCase
 {
-
+    /**
+     * @var MySQL
+     */
     protected $connection;
 
+    /**
+     * Set up.
+     */
     protected function setUp()
     {
         $dsn = MYSQL_DSN;
         $settings = new Settings($dsn);
-        $this->connection = new Connection_PDO_MySQL($settings);
+        $this->connection = new MySQL($settings);
     }
 
+    /**
+     * Test connect to database. Method should return a PDO instance.
+     */
     public function testConnect()
     {
         $this->connection->connect();
         $this->assertTrue($this->connection->getHandle() instanceof \PDO);
     }
 
+    /**
+     * @expectedException \Simqel\Exception
+     */
     public function testConnectFail()
     {
-        $this->setExpectedException('Simqel\Exception');
-        $settings = new Settings('mysql://super_mega_user@localhost/fake_db');
-        $connection = new Connection_PDO_MySQL($settings);
+        $settings = new Settings('mysql://super_user@localhost/fake_db');
+        $connection = new MySQL($settings);
         $connection->connect();
     }
 
@@ -42,20 +56,20 @@ class SqlConnectionPDOMySQLTest extends \PHPUnit_Framework_TestCase
 
     public function testAffectedRows()
     {
-        $db  = MYSQL_DB;
+        $db = MYSQL_DB;
         $settings = new Settings($db);
         $database = $settings->getDatabase();
         $settings->setDatabase(null);
-        $this->connection = new Connection_PDO_MySQL($settings);
+        $this->connection = new MySQL($settings);
         $this->connection->query("DROP DATABASE IF EXISTS $database;");
         $this->connection->query("CREATE DATABASE $database;");
         $this->connection->query("USE $database;");
         $settings->setDatabase($database);
         $this->connection->query("CREATE TABLE cat (
-			id INTEGER PRIMARY KEY AUTO_INCREMENT,
-			name VARCHAR(50),
-			colour VARCHAR(50)
-		) ENGINE=InnoDB");
+            id INTEGER PRIMARY KEY AUTO_INCREMENT,
+            name VARCHAR(50),
+            colour VARCHAR(50)
+        ) ENGINE=InnoDB");
 
         $this->connection->query("INSERT INTO cat VALUES(1, 'Theta', 'red')");
         $this->assertEquals(1, $this->connection->getAffectedRows());

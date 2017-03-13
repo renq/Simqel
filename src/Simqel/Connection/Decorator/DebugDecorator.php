@@ -1,9 +1,15 @@
 <?php
 
-namespace Simqel;
+namespace Simqel\Connection\Decorator;
 
+use Simqel\Connection\Connection;
+use Simqel\Connection\ConnectionDecorator;
 
-class Connection_Decorator_Debug extends Connection_Decorator
+/**
+ * Class Connection_Decorator_Debug
+ * @package Simqel
+ */
+class DebugDecorator extends ConnectionDecorator
 {
 
     private $decorated;
@@ -48,11 +54,9 @@ class Connection_Decorator_Debug extends Connection_Decorator
     {
         if (is_array($variable)) {
             return '(' . implode(', ', array_map(array($this, 'escape'), $variable)) . ')';
-        }
-        elseif (is_int($variable)) {
+        } elseif (is_int($variable)) {
             return (string)$variable;
-        }
-        else {
+        } else {
             return "'{$variable}'";
         }
     }

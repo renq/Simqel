@@ -1,27 +1,27 @@
 <?php
 
 
-$loader = require __DIR__.'/../vendor/autoload.php';
+$loader = require __DIR__ . '/../vendor/autoload.php';
 $loader->add('Simqel\Tests', __DIR__);
 
 /*
 $config = array(
 
 
-	'sqlite_db' => ,
+    'sqlite_db' => ,
 
-	'mysql_db'  => 'mysql://root:gsub@localhost/mlsql',
+    'mysql_db'  => 'mysql://root:gsub@localhost/mlsql',
 
-	'mysql_dsn' => 'mysql://root:gsub@127.0.0.1/information_schema',
+    'mysql_dsn' => 'mysql://root:gsub@127.0.0.1/information_schema',
 
-	'pgsql_dsn' => 'pgsql://renq:test@localhost/mlsql',
+    'pgsql_dsn' => 'pgsql://renq:test@localhost/mlsql',
 
 
 );
 */
 
 if (!file_exists(__DIR__ . '/../temp/')) {
-	mkdir(__DIR__ . '/../temp/');
+    mkdir(__DIR__ . '/../temp/');
 }
 
 define('TEST_PGSQL', false);

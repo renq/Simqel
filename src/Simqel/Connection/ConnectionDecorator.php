@@ -1,9 +1,12 @@
 <?php
 
-namespace Simqel;
+namespace Simqel\Connection;
 
-
-class Connection_Decorator implements Connection
+/**
+ * Class ConnectionDecorator
+ * @package Simqel\Connection
+ */
+class ConnectionDecorator implements Connection
 {
 
     private $decorated;

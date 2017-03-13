@@ -14,16 +14,13 @@
     "require": {
         "php": ">=5.3.3"
     },
-    "replace": {
-
-    },
     "require-dev": {
-
+        "phpunit/phpunit": "^6.0"
     },
     "autoload": {
         "psr-0": { "Simqel": "src/" },
         "classmap": []
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "extra": {}
 }
