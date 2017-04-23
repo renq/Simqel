@@ -14,35 +14,52 @@ use Simqel\Settings;
  */
 abstract class PdoConnection extends BaseConnection
 {
+    /**
+     * @var \PDO
+     */
     protected $handle = null;
-
+    /**
+     * @var \PDOStatement
+     */
     private $lastStatement = null;
 
-
+    /**
+     * PdoConnection constructor.
+     * @param Settings $settings
+     */
     public function __construct(Settings $settings)
     {
         parent::__construct($settings);
     }
 
-
+    /**
+     *
+     */
     public function disconnect()
     {
         $this->handle = null;
     }
 
-
+    /**
+     * @return null
+     */
     public function getHandle()
     {
         return $this->handle;
     }
 
-
+    /**
+     * @param resource $handle
+     */
     public function setHandle($handle)
     {
         $this->handle = $handle;
     }
 
-
+    /**
+     * @param $value
+     * @return string
+     */
     public function escape($value)
     {
         $this->connect();
@@ -63,7 +80,13 @@ abstract class PdoConnection extends BaseConnection
         }
     }
 
-
+    /**
+     * @param string $query
+     * @param array $params
+     * @return mixed
+     * @throws BindException
+     * @throws Exception
+     */
     public function query($query, array $params = array())
     {
         $this->connect();
@@ -83,7 +106,10 @@ abstract class PdoConnection extends BaseConnection
         return $sth;
     }
 
-
+    /**
+     * @return int
+     * @throws Exception
+     */
     public function getAffectedRows()
     {
         if ($this->lastStatement instanceof \PDOStatement) {
@@ -93,35 +119,48 @@ abstract class PdoConnection extends BaseConnection
         }
     }
 
-
+    /**
+     * @param string $table
+     * @param string $idColumn
+     * @return mixed
+     */
     public function lastInsertId($table = '', $idColumn = '')
     {
         $this->connect();
         return $this->handle->lastInsertId();
     }
 
-
+    /**
+     * @param mixed $sth
+     * @return mixed
+     */
     public function fetch($sth)
     {
         $this->connect();
         return $sth->fetch(\PDO::FETCH_ASSOC);
     }
 
-
+    /**
+     *
+     */
     public function beginTransaction()
     {
         $this->connect();
         $this->handle->beginTransaction();
     }
 
-
+    /**
+     *
+     */
     public function commit()
     {
         $this->connect();
         $this->handle->commit();
     }
 
-
+    /**
+     *
+     */
     public function rollback()
     {
         $this->connect();

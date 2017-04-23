@@ -4,7 +4,7 @@ namespace Simqel\Tests\Strategy;
 
 use PHPUnit\Framework\TestCase;
 use Simqel\Connection\Connection;
-use Simqel\Strategy\MysqlStrategy;
+use Simqel\Strategy\MySQLStrategy;
 
 /**
  * Class SqlStrategySqliteTest
@@ -21,7 +21,7 @@ class MySQLTest extends TestCase
         $connection = $this->getMockBuilder(Connection::class)
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
-        $strategy = new MysqlStrategy($connection);
+        $strategy = new MySQLStrategy($connection);
         $query = "SELECT * FROM dual";
         $queryWithLimit = $strategy->limit($query, 20, 100);
         $queryWithLimit = preg_replace('/[\s]+/', ' ', $queryWithLimit);

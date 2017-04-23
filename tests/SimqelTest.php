@@ -8,7 +8,7 @@ use Simqel\Connection\PDO\MySQL;
 use Simqel\Connection\PDO\PostgreSQL;
 use Simqel\Connection\PDO\Sqlite;
 use Simqel\Simqel;
-use Simqel\Strategy\MysqlStrategy;
+use Simqel\Strategy\MySQLStrategy;
 use Simqel\Strategy\PostgreSqlStrategy;
 use Simqel\Strategy\SqliteStrategy;
 use Simqel\Strategy\Strategy;
@@ -25,7 +25,7 @@ class SimqelTest extends TestCase
         $sql = Simqel::createByDSN($dsn);
         $this->assertTrue($sql instanceof Simqel, 'SQL::createByDSN should returns instance of class SQL');
         $this->assertTrue($sql->getConnection() instanceof MySQL, 'Connection should be an instance of Connection_PDO_MySQL');
-        $this->assertTrue($sql->getStrategy() instanceof MysqlStrategy, 'Strategy should be an instance of Strategy_MySQL');
+        $this->assertTrue($sql->getStrategy() instanceof MySQLStrategy, 'Strategy should be an instance of Strategy_MySQL');
     }
 
 
@@ -66,7 +66,7 @@ class SimqelTest extends TestCase
     private function methodCall($method)
     {
         $connection = $this->getConnectionMock();
-        $strategy = new MysqlStrategy($connection);
+        $strategy = new MySQLStrategy($connection);
         $sql = new Simqel($connection, $strategy);
 
         $connection->expects($this->once())->method($method);

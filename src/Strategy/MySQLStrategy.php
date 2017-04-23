@@ -8,7 +8,7 @@ use Simqel\Connection\Connection;
  * Class Strategy_MySQL
  * @package Simqel\Strategy
  */
-class MysqlStrategy extends Strategy
+class MySQLStrategy extends Strategy
 {
     public function __construct(Connection $connection)
     {

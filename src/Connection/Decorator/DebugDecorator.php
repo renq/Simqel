@@ -11,44 +11,76 @@ use Simqel\Connection\ConnectionDecorator;
  */
 class DebugDecorator extends ConnectionDecorator
 {
+    /**
+     * @var Connection
+     */
     private $decorated;
+
+    /**
+     * @var array
+     */
     private $queries = array();
 
+    /**
+     * DebugDecorator constructor.
+     * @param Connection $connection
+     */
     public function __construct(Connection $connection)
     {
         parent::__construct($connection);
         $this->decorated = $connection;
     }
 
+    /**
+     * @param string $query
+     * @param array $params
+     * @return mixed
+     */
     public function query($query, array $params = array())
     {
         $this->queries[] = $this->buildQuery($query, $params);
         return $this->decorated->query($query, $params);
     }
 
+    /**
+     * @return mixed
+     */
     public function beginTransaction()
     {
         $this->queries[] = 'BEGIN TRANSACTION';
         return $this->decorated->beginTransaction();
     }
 
+    /**
+     * @return mixed
+     */
     public function commit()
     {
         $this->queries[] = 'COMMIT';
         return $this->decorated->commit();
     }
 
+    /**
+     * @return mixed
+     */
     public function rollback()
     {
         $this->queries[] = 'ROLLBACK';
         return $this->decorated->rollback();
     }
 
+    /**
+     * @return array
+     */
     public function getDebug()
     {
         return $this->queries;
     }
 
+    /**
+     * @param $variable
+     * @return string
+     */
     public function escape($variable)
     {
         if (is_array($variable)) {
@@ -60,6 +92,11 @@ class DebugDecorator extends ConnectionDecorator
         }
     }
 
+    /**
+     * @param $query
+     * @param $params
+     * @return string
+     */
     private function buildQuery($query, $params)
     {
         $count = 0;

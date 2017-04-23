@@ -57,7 +57,6 @@ interface Connection
      */
     public function getHandle();
 
-
     /**
      *
      * Sets database handle.

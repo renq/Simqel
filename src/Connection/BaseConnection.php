@@ -12,20 +12,11 @@ use Simqel\Settings;
  */
 abstract class BaseConnection implements Connection
 {
-
-
-    /*
-     * DSN
-     * @var string
-     */
-    //protected $dsn;
-
     /**
      * Settings object generated from DSN string.
      * @var Settings
      */
     protected $settings;
-
 
     /**
      * Constructor
@@ -36,7 +27,6 @@ abstract class BaseConnection implements Connection
         $this->settings = $settings;
     }
 
-
     /**
      * Returns settings object.
      * @return Settings
@@ -46,7 +36,11 @@ abstract class BaseConnection implements Connection
         return $this->settings;
     }
 
-
+    /**
+     * @param $query
+     * @param array $params
+     * @return array
+     */
     protected function parseQueryArrays($query, array $params)
     {
         $newQuery = '';

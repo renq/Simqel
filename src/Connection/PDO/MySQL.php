@@ -12,11 +12,19 @@ use Simqel\Settings;
  */
 class MySQL extends PdoConnection
 {
+    /**
+     * MySQL constructor.
+     * @param Settings $settings
+     */
     public function __construct(Settings $settings)
     {
         parent::__construct($settings);
     }
 
+    /**
+     * @return bool
+     * @throws Exception
+     */
     public function connect()
     {
         if ($this->handle instanceof \PDO) {

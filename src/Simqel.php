@@ -6,7 +6,7 @@ use Simqel\Connection\Connection;
 use Simqel\Connection\PDO\MySQL;
 use Simqel\Connection\PDO\PostgreSQL;
 use Simqel\Connection\PDO\Sqlite;
-use Simqel\Strategy\MysqlStrategy;
+use Simqel\Strategy\MySQLStrategy;
 use Simqel\Strategy\PostgreSqlStrategy;
 use Simqel\Strategy\SqliteStrategy;
 use Simqel\Strategy\Strategy;
@@ -54,7 +54,7 @@ class Simqel
         switch ($settings->getDriver()) {
             case 'mysql':
                 $connection = new MySQL($settings);
-                $strategy = new MysqlStrategy($connection);
+                $strategy = new MySQLStrategy($connection);
                 return new static($connection, $strategy);
             case 'pgsql':
                 $connection = new PostgreSQL($settings);

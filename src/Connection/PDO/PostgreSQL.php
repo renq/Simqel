@@ -12,15 +12,24 @@ use Simqel\Settings;
  */
 class PostgreSQL extends PdoConnection
 {
+    /**
+     * @var array
+     */
     private $serialSequenceCache = array();
 
-
+    /**
+     * PostgreSQL constructor.
+     * @param Settings $settings
+     */
     public function __construct(Settings $settings)
     {
         parent::__construct($settings);
     }
 
-
+    /**
+     * @return bool
+     * @throws Exception
+     */
     public function connect()
     {
         if ($this->handle instanceof \PDO) {
@@ -43,7 +52,11 @@ class PostgreSQL extends PdoConnection
         }
     }
 
-
+    /**
+     * @param $table
+     * @param $idColumn
+     * @return mixed
+     */
     public function getSerialSequence($table, $idColumn)
     {
         if (isset($this->serialSequenceCache[$table][$idColumn])) {
@@ -55,7 +68,11 @@ class PostgreSQL extends PdoConnection
         return $row['seq_name'];
     }
 
-
+    /**
+     * @param string $table
+     * @param string $idColumn
+     * @return mixed
+     */
     public function lastInsertId($table = '', $idColumn = '')
     {
         $this->connect();
