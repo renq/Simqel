@@ -302,7 +302,6 @@ class Simqel
         return $this->getStrategy()->qm($num);
     }
 
-
     /**
      * Returns connection object.
      * @return Connection
@@ -311,7 +310,6 @@ class Simqel
     {
         return $this->connection;
     }
-
 
     /**
      * Sets connection object.
@@ -322,7 +320,6 @@ class Simqel
         $this->connection = $connection;
     }
 
-
     /**
      * Returns strategy object.
      * @return Strategy
@@ -331,7 +328,6 @@ class Simqel
     {
         return $this->strategy;
     }
-
 
     /**
      * Sets strategy object.

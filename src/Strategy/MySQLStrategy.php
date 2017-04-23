@@ -10,13 +10,22 @@ use Simqel\Connection\Connection;
  */
 class MySQLStrategy extends Strategy
 {
+    /**
+     * MySQLStrategy constructor.
+     * @param Connection $connection
+     */
     public function __construct(Connection $connection)
     {
         parent::__construct($connection);
         $this->escapeIdentifierCharacter = '`';
     }
 
-
+    /**
+     * @param string $query
+     * @param int $limit
+     * @param int $offset
+     * @return string
+     */
     public function limit($query, $limit, $offset)
     {
         $limit = (int)$limit;

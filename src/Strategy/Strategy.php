@@ -12,14 +12,15 @@ use Simqel\Connection\Connection;
  */
 abstract class Strategy
 {
-
     /**
      * @var Connection
      */
     protected $connection;
 
+    /**
+     * @var string
+     */
     protected $escapeIdentifierCharacter = '"';
-
 
     /**
      * Constructor.
@@ -39,7 +40,6 @@ abstract class Strategy
      */
     abstract public function limit($query, $limit, $offset);
 
-
     /**
      * Gets one (first) row from query result.
      * @param $query
@@ -49,7 +49,6 @@ abstract class Strategy
     {
         return $query;
     }
-
 
     /**
      * Gets row by id.
@@ -63,7 +62,6 @@ abstract class Strategy
         $idColumn = $this->escapeIdentifier($idColumn);
         return "SELECT * FROM $table WHERE $idColumn = ? ";
     }
-
 
     /**
      * Retuns an insert query.
@@ -82,7 +80,6 @@ abstract class Strategy
         $qm = $this->qm(count($params));
         return "INSERT INTO $table ($columns) VALUES ($qm) ";
     }
-
 
     /**
      * Returns an update query.
@@ -104,7 +101,6 @@ abstract class Strategy
         return "UPDATE $table SET $set WHERE $idColumn = ? ";
     }
 
-
     /**
      * Zwraca zapytanie Delete
      * @param string $table
@@ -119,7 +115,6 @@ abstract class Strategy
         return "DELETE FROM $table WHERE $idColumn = ? ";
     }
 
-
     /**
      * Retuns $num question marks. Usefull for .. IN (?, ?, ..., ?).
      * @param int $num
@@ -131,7 +126,6 @@ abstract class Strategy
         return implode(', ', array_fill(0, $num, '?'));
     }
 
-
     /**
      * Returns describe query.
      */
@@ -139,7 +133,6 @@ abstract class Strategy
     {
         return "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE table_schema = ? AND table_name = ?";
     }
-
 
     /**
      * Returns escape identifier character.
@@ -150,7 +143,6 @@ abstract class Strategy
         return $this->escapeIdentifierCharacter;
     }
 
-
     /**
      * Set escape identifier character.
      * @param string $e
@@ -159,7 +151,6 @@ abstract class Strategy
     {
         $this->escapeIdentifierCharacter = $e;
     }
-
 
     /**
      *
