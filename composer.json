@@ -22,7 +22,15 @@
         "bin-dir": "bin"
     },
     "autoload": {
-        "psr-0": { "Simqel": "src/" },
+        "psr-4": {
+            "Simqel\\": "src/"
+        },
+        "classmap": []
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Simqel\\Tests\\": "tests/"
+        },
         "classmap": []
     },
     "minimum-stability": "stable",

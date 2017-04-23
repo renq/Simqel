@@ -137,6 +137,4 @@ class StrategyTest extends TestCase
         $this->strategy->setEscapeIdentifierCharacter('%^%');
         $this->assertEquals('%^%database%^%.%^%table%^%.%^%field%^%', $this->strategy->escapeIdentifier('database.table.field'));
     }
-
-
 }

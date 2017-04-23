@@ -117,7 +117,4 @@ class SqlConnectionDecoratorTest extends TestCase
         $this->connection->expects($this->once())->method('getAffectedRows');
         $this->decorated->getAffectedRows();
     }
-
-
 }
-

@@ -4,24 +4,20 @@ namespace Simqel\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Simqel\Connection\Connection;
-use Simqel\Strategy\MysqlStrategy;
+use Simqel\Strategy\SqliteStrategy;
 
 /**
- * Class SqlStrategySqliteTest
+ * Class SqlStrategyMySQLTest
  * @package Simqel\Tests
  */
-class SqlStrategySqliteTest extends TestCase
+class SqlStrategyMySQLTest extends TestCase
 {
-
-    /**
-     *
-     */
     public function testLimit()
     {
         $connection = $this->getMockBuilder(Connection::class)
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
-        $strategy = new MysqlStrategy($connection);
+        $strategy = new SqliteStrategy($connection);
         $query = "SELECT * FROM dual";
         $queryWithLimit = $strategy->limit($query, 20, 100);
         $queryWithLimit = preg_replace('/[\s]+/', ' ', $queryWithLimit);
@@ -29,4 +25,3 @@ class SqlStrategySqliteTest extends TestCase
         $this->assertEquals("$query LIMIT 100, 20", $queryWithLimit);
     }
 }
-

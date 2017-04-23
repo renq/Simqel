@@ -12,8 +12,6 @@ use Simqel\Settings;
  */
 class SqlConnectionMySQLTest extends TestCase
 {
-
-
     protected $connection;
 
 
@@ -200,7 +198,4 @@ class SqlConnectionMySQLTest extends TestCase
         $connection->setHandle($handle);
         $this->assertEquals($handle, $connection->getHandle());
     }
-
-
 }
-

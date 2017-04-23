@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 use Simqel\Simqel;
 use Simqel\Settings;
 
-
 class SettingsTest extends TestCase
 {
 
@@ -167,6 +166,4 @@ class SettingsTest extends TestCase
         $settings->clearPassword();
         $this->assertNotEquals($settings->getPassword(), $password);
     }
-
-
 }
