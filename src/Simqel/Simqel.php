@@ -11,7 +11,6 @@ use Simqel\Strategy\PostgreSqlStrategy;
 use Simqel\Strategy\SqliteStrategy;
 use Simqel\Strategy\Strategy;
 
-
 /**
  *  class.
  * @author Michał Lipek (michal@lipek.net)
@@ -141,7 +140,7 @@ class Simqel
      * Returns value in first column and first row.
      * @param string $query
      * @param array $params
-     * @return string
+     * @return string|null
      */
     public function value($query, array $params = array())
     {
@@ -149,7 +148,7 @@ class Simqel
         if (!empty($tmp) && is_array($tmp)) {
             return array_shift($tmp);
         } else {
-            return false;
+            return null;
         }
     }
 
@@ -295,7 +294,8 @@ class Simqel
 
     /**
      * @deprecated
-     * @param unknown_type $num
+     * @param int $num
+     * @return string
      */
     public function qm($num)
     {
@@ -341,6 +341,4 @@ class Simqel
     {
         $this->strategy = $strategy;
     }
-
-
 }

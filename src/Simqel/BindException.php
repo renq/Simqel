@@ -2,7 +2,6 @@
 
 namespace Simqel;
 
-
 /**
  *
  * @author Michał Lipek (michal@lipek.net)
@@ -11,5 +10,4 @@ namespace Simqel;
  */
 class BindException extends Exception
 {
-
 }

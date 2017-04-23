@@ -2,15 +2,14 @@
 
 namespace Simqel\Connection;
 
+use Simqel\Settings;
+
 /**
- * Iinterface defines methods for connection classes.
  * @author Michał Lipek (michal@lipek.net)
  * @version 2.0 2010-01-08
  */
 interface Connection
 {
-
-
     /**
      * Connect to database.
      * @return mixed
@@ -47,7 +46,7 @@ interface Connection
     /**
      * Returns last inset id.
      * @param string $table Table name
-     * @param string $table identify column name
+     * @param string $idColumn identify column name
      * @return int
      */
     public function lastInsertId($table = '', $idColumn = '');
@@ -91,7 +90,4 @@ interface Connection
      * @return Settings
      */
     public function getSettings();
-
-
 }
-

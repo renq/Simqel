@@ -11,7 +11,6 @@ use Simqel\Connection\ConnectionDecorator;
  */
 class DebugDecorator extends ConnectionDecorator
 {
-
     private $decorated;
     private $queries = array();
 

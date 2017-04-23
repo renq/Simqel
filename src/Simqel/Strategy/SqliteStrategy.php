@@ -10,8 +10,6 @@ use Simqel\Connection\Connection;
  */
 class SqliteStrategy extends Strategy
 {
-
-
     public function __construct(Connection $connection)
     {
         parent::__construct($connection);
@@ -25,6 +23,4 @@ class SqliteStrategy extends Strategy
         $offset = (int)$offset;
         return "$query LIMIT $offset, $limit";
     }
-
-
 }

@@ -10,8 +10,6 @@ use Simqel\Connection\Connection;
  */
 class PostgreSqlStrategy extends Strategy
 {
-
-
     public function __construct(Connection $connection)
     {
         parent::__construct($connection);
@@ -25,6 +23,4 @@ class PostgreSqlStrategy extends Strategy
         $offset = (int)$offset;
         return "$query LIMIT $limit OFFSET $offset";
     }
-
-
 }

@@ -6,7 +6,6 @@ use Simqel\BindException;
 use Simqel\Exception;
 use Simqel\Settings;
 
-
 /**
  *
  * Enter description here ...
@@ -15,7 +14,6 @@ use Simqel\Settings;
  */
 abstract class PdoConnection extends BaseConnection
 {
-
     protected $handle = null;
 
     private $lastStatement = null;
@@ -129,8 +127,4 @@ abstract class PdoConnection extends BaseConnection
         $this->connect();
         $this->handle->rollback();
     }
-
-
 }
-
-

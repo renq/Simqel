@@ -122,8 +122,9 @@ abstract class Strategy
 
     /**
      * Retuns $num question marks. Usefull for .. IN (?, ?, ..., ?).
-     * @param unknown_type $num
-     * @return unknown_type
+     * @param int $num
+     * @return string
+     * @deprecated
      */
     public function qm($num)
     {
@@ -175,6 +176,4 @@ abstract class Strategy
         }
         return implode('.', $parts);
     }
-
-
 }

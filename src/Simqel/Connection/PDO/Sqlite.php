@@ -12,8 +12,6 @@ use Simqel\Settings;
  */
 class Sqlite extends PdoConnection
 {
-
-
     public function __construct(Settings $settings)
     {
         parent::__construct($settings);
@@ -22,7 +20,9 @@ class Sqlite extends PdoConnection
 
     public function connect()
     {
-        if ($this->handle instanceof \PDO) return false;
+        if ($this->handle instanceof \PDO) {
+            return false;
+        }
         try {
             $driver = $this->settings->getDriver();
             $database = $this->settings->getDatabase();
@@ -35,5 +35,3 @@ class Sqlite extends PdoConnection
         }
     }
 }
-
-

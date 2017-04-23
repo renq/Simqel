@@ -12,7 +12,6 @@ use Simqel\Settings;
  */
 class MySQL extends PdoConnection
 {
-
     public function __construct(Settings $settings)
     {
         parent::__construct($settings);
@@ -20,7 +19,9 @@ class MySQL extends PdoConnection
 
     public function connect()
     {
-        if ($this->handle instanceof \PDO) return false;
+        if ($this->handle instanceof \PDO) {
+            return false;
+        }
         try {
             $driver = $this->settings->getDriver();
             $host = $this->settings->getHost();

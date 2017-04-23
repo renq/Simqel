@@ -12,8 +12,6 @@ use Simqel\Settings;
  */
 class PostgreSQL extends PdoConnection
 {
-
-
     private $serialSequenceCache = array();
 
 
@@ -25,7 +23,9 @@ class PostgreSQL extends PdoConnection
 
     public function connect()
     {
-        if ($this->handle instanceof \PDO) return false;
+        if ($this->handle instanceof \PDO) {
+            return false;
+        }
         try {
             $driver = $this->settings->getDriver();
             $host = $this->settings->getHost();
@@ -62,6 +62,4 @@ class PostgreSQL extends PdoConnection
         $sequenceName = $this->getSerialSequence($table, $idColumn);
         return $this->handle->lastInsertId($sequenceName);
     }
-} 
-
-
+}

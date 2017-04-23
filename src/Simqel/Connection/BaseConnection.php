@@ -4,7 +4,6 @@ namespace Simqel\Connection;
 
 use Simqel\Settings;
 
-
 /**
  * SqlConnection is an abstract class corresponds to database connection.
  * Subclasses to this class implements connection to specific database, ie. MySQL.
@@ -66,7 +65,4 @@ abstract class BaseConnection implements Connection
         $newQuery .= array_shift($split);
         return array($newQuery, $newParams);
     }
-
-
 }
-

@@ -2,13 +2,14 @@
 
 namespace Simqel\Connection;
 
+use Simqel\Settings;
+
 /**
  * Class ConnectionDecorator
  * @package Simqel\Connection
  */
 class ConnectionDecorator implements Connection
 {
-
     private $decorated;
 
     public function __construct(Connection $connection)
@@ -86,8 +87,8 @@ class ConnectionDecorator implements Connection
         return $this->decorated->getSettings();
     }
 
-    public function setSettings(Settings $settings)
-    {
-        $this->decorated->setSettings($settings);
-    }
+//    public function setSettings(Settings $settings)
+//    {
+//        $this->decorated->setSettings($settings);
+//    }
 }
