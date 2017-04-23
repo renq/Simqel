@@ -13,7 +13,7 @@
 >
     <testsuites>
         <testsuite name="Simqel Test Suite">
-            <directory>./tests/Simqel/</directory>
+            <directory>./tests</directory>
         </testsuite>
     </testsuites>
     <filter>

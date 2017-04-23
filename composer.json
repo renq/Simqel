@@ -12,18 +12,27 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3"
-    },
-    "replace": {
-
+        "php": ">=5.5"
     },
     "require-dev": {
-
+        "phpunit/phpunit": "^6.0",
+        "phpstan/phpstan": "^0.6.4"
+    },
+    "config": {
+        "bin-dir": "bin"
     },
     "autoload": {
-        "psr-0": { "Simqel": "src/" },
+        "psr-4": {
+            "Simqel\\": "src/"
+        },
         "classmap": []
     },
-    "minimum-stability": "dev",
+    "autoload-dev": {
+        "psr-4": {
+            "Simqel\\Tests\\": "tests/"
+        },
+        "classmap": []
+    },
+    "minimum-stability": "stable",
     "extra": {}
 }
