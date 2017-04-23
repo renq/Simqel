@@ -1,16 +1,16 @@
 <?php
 
-namespace Simqel\Tests;
+namespace Simqel\Tests\Connection\PDO;
 
 use PHPUnit\Framework\TestCase;
+use Simqel\Connection\PDO\PostgreSQL;
 use Simqel\Settings;
-use Simqel\Connection_PDO_PostgreSQL;
 
 /**
  * Class SqlConnectionPDOPostgreSQLTest
  * @package Simqel\Tests
  */
-class SqlConnectionPDOPostgreSQLTest extends TestCase
+class PostgreSQLTest extends TestCase
 {
 
     /**
@@ -26,7 +26,7 @@ class SqlConnectionPDOPostgreSQLTest extends TestCase
         }
         $dsn = PGSQL_DSN;
         $settings = new Settings($dsn);
-        $this->connection = new Connection_PDO_PostgreSQL($settings);
+        $this->connection = new PostgreSQL($settings);
     }
 
 
@@ -36,12 +36,13 @@ class SqlConnectionPDOPostgreSQLTest extends TestCase
         $this->assertTrue($this->connection->getHandle() instanceof \PDO);
     }
 
-
+    /**
+     * @expectedException \Simqel\Exception
+     */
     public function testConnectFail()
     {
-        $this->setExpectedException('Simqel\Exception');
         $settings = new Settings('pgsql://super_mega_user:pass@localhost/fake_db');
-        $connection = new Connection_PDO_PostgreSQL($settings);
+        $connection = new PostgreSQL($settings);
         $connection->connect();
     }
 
@@ -86,7 +87,7 @@ class SqlConnectionPDOPostgreSQLTest extends TestCase
     public function testSerialSequenceCache()
     {
         $settings = $this->getMock('Simqel\Settings');
-        $connection = $this->getMock('Simqel\Connection_PDO_PostgreSQL', array('query', 'connect', 'fetch'), array($settings));
+        $connection = $this->getMock('Simqel\PostgreSQL', array('query', 'connect', 'fetch'), array($settings));
         $connection->expects($this->once())->method('query');
         $connection->expects($this->once())->method('fetch')->will($this->returnValue('cats_id_seq'));
         $connection->getSerialSequence('cats', 'id');

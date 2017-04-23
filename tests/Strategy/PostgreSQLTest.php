@@ -1,17 +1,16 @@
 <?php
 
-namespace Simqel\Tests;
+namespace Simqel\Tests\Strategy;
 
 use PHPUnit\Framework\TestCase;
 use Simqel\Connection\Connection;
 use Simqel\Strategy\PostgreSqlStrategy;
-use Simqel\Strategy_PostgreSQL;
 
 /**
  * Class SqlStrategyPostgreSQLTest
  * @package Simqel\Tests
  */
-class SqlStrategyPostgreSQLTest extends TestCase
+class PostgreSQLTest extends TestCase
 {
     public function testLimit()
     {

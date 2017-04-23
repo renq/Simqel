@@ -1,6 +1,6 @@
 <?php
 
-namespace Simqel\Tests;
+namespace Simqel\Tests\Connection\Decorator;
 
 use PHPUnit\Framework\TestCase;
 use Simqel\Connection\Decorator\DebugDecorator;
@@ -10,7 +10,7 @@ use Simqel\Connection\PDO\Sqlite;
  * Class SqlConnectionDecoratorDebugTest
  * @package Simqel\Tests
  */
-class SqlConnectionDecoratorDebugTest extends TestCase
+class DebugTest extends TestCase
 {
 
     /**

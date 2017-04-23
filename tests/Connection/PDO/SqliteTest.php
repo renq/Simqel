@@ -1,6 +1,6 @@
 <?php
 
-namespace Simqel\Tests;
+namespace Simqel\Tests\Connection\PDO;
 
 use PHPUnit\Framework\TestCase;
 use Simqel\Connection\PDO\Sqlite;
@@ -10,11 +10,11 @@ use Simqel\Settings;
  * Class SqlConnectionPDOSqliteTest
  * @package Simqel\Tests
  */
-class SqlConnectionPDOSqliteTest extends TestCase
+class SqliteTest extends TestCase
 {
 
     /**
-     * @var Connection_PDO_Sqlite
+     * @var Sqlite
      */
     protected $connection;
 

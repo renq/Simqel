@@ -1,6 +1,6 @@
 <?php
 
-namespace Simqel\Tests;
+namespace Simqel\Tests\Strategy;
 
 use PHPUnit\Framework\TestCase;
 use Simqel\Connection\Connection;
@@ -10,7 +10,7 @@ use Simqel\Strategy\MysqlStrategy;
  * Class SqlStrategySqliteTest
  * @package Simqel\Tests
  */
-class SqlStrategySqliteTest extends TestCase
+class MySQLTest extends TestCase
 {
 
     /**

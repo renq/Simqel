@@ -5,7 +5,7 @@ namespace Simqel\Tests;
 use PHPUnit\Framework\TestCase;
 use Simqel\Connection\Connection;
 use Simqel\Strategy\MysqlStrategy;
-use Simqel\Strategy_MySQL;
+use Simqel\Strategy;
 
 /**
  * Class StrategyTest
@@ -21,7 +21,7 @@ class StrategyTest extends TestCase
     private $connection;
 
     /**
-     * @var Strategy_MySQL
+     * @var Strategy\MysqlStrategy
      */
     private $strategy;
 
@@ -96,7 +96,7 @@ class StrategyTest extends TestCase
      */
     private function getStrategyMock()
     {
-        return $this->getMockBuilder(Strategy_MySQL::class)
+        return $this->getMockBuilder(Strategy\MysqlStrategy::class)
             ->setConstructorArgs([$this->connection])
             ->setMethods(['escapeIdentifier'])
             ->getMock();

@@ -1,6 +1,6 @@
 <?php
 
-namespace Simqel\Tests;
+namespace Simqel\Tests\Connection\PDO;
 
 use PHPUnit\Framework\TestCase;
 use Simqel\Connection\PDO\MySQL;
@@ -10,7 +10,7 @@ use Simqel\Settings;
  * Class SqlConnectionPDOMySQLTest
  * @package Simqel\Tests
  */
-class SqlConnectionPDOMySQLTest extends TestCase
+class MySQLTest extends TestCase
 {
     /**
      * @var MySQL

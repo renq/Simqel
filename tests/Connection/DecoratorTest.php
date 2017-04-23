@@ -1,6 +1,6 @@
 <?php
 
-namespace Simqel\Tests;
+namespace Simqel\Tests\Connection;
 
 use PHPUnit\Framework\TestCase;
 use Simqel\Connection\ConnectionDecorator;
@@ -10,15 +10,15 @@ use Simqel\Connection\PDO\Sqlite;
  * Class SqlConnectionDecoratorTest
  * @package Simqel\Tests
  */
-class SqlConnectionDecoratorTest extends TestCase
+class DecoratorTest extends TestCase
 {
     /**
-     * @var Connection_PDO_Sqlite | \PHPUnit_Framework_MockObject_MockObject
+     * @var Sqlite | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $connection;
 
     /**
-     * @var Connection_Decorator
+     * @var ConnectionDecorator
      */
     protected $decorated;
 
